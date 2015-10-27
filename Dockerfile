@@ -24,16 +24,13 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     texlive-latex-recommended \
     texlive-luatex \
     texlive-xetex \
-    wget \
+    wget
 
 # install RStudio
-RUN if [ ! -e /usr/sbin/rstudio-server ] \
-      then \
-          echo "Installing RStudio Server" \
-          export RSTUDIOVERSION='rstudio-server-0.99.739-amd64.deb' \
-          wget https://s3.amazonaws.com/rstudio-dailybuilds/$RSTUDIOVERSION \
-          gdebi --non-interactive $RSTUDIOVERSION \
-    fi \
+ENV RSTUDIOVERSION rstudio-server-0.99.739-amd64.deb
+RUN wget https://s3.amazonaws.com/rstudio-dailybuilds/$RSTUDIOVERSION
+RUN gdebi --non-interactive $RSTUDIOVERSION
+
 
 # install pandoc
 RUN cabal update && \
