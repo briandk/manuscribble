@@ -34,6 +34,9 @@ RUN cabal update && \
     cabal install pandoc pandoc-citeproc
 ENV PATH /root/.cabal/bin:$PATH
 
+# Create checkpoint directory for R checkpoint package
+RUN mkdir /root/.checkpoint
+
 # The container can now take two parameters. The R script to run in order to render
 #   the manuscript, and the .Rmd file to be rendered
 WORKDIR /vagrant 
