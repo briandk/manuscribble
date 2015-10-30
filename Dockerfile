@@ -35,6 +35,7 @@ RUN cabal update && \
 ENV PATH /root/.cabal/bin:$PATH
 
 # Create checkpoint directory for R checkpoint package
+RUN mkdir /dependencies
 COPY r-packages.R /dependencies/
 RUN R --vanilla -f /dependencies/r-packages.R
 RUN mkdir /root/.checkpoint
