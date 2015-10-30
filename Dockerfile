@@ -35,6 +35,10 @@ RUN cabal update && \
 ENV PATH /root/.cabal/bin:$PATH
 
 # Create checkpoint directory for R checkpoint package
+RUN R -e 'install.packages(
+  c("checkpoint", "knitr", "rmarkdown"),
+  dep = TRUE,
+  repos = "http://cran.rstudio.com")'
 RUN mkdir /root/.checkpoint
 
 # The container can now take two parameters. The R script to run in order to render
