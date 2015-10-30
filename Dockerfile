@@ -36,7 +36,7 @@ RUN apt-get install --assume-yes \
     libmysqlclient-dev \
     libpq5 \
     mysql-client \
-    postgresql \
+    postgresql 
 
 # Haskell Dependencies for pandoc
 RUN apt-get install --assume-yes \
