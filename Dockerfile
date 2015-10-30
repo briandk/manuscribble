@@ -32,7 +32,66 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
 # MySQL and PostgreSQL
 RUN apt-get build-dep --assume-yes postgresql
 RUN apt-get build-dep --assume-yes mysql-client
-RUN apt-get install --assume-yes postgresql mysql-client
+RUN apt-get install --assume-yes \
+    libmysqlclient-dev \
+    libpq5 \
+    mysql-client \
+    postgresql \
+
+# Haskell Dependencies for pandoc
+RUN apt-get install --assume yes \
+	libghc-aeson-dev \
+	libghc-array-dev \
+	libghc-base-dev \
+	libghc-base64-bytestring-dev \
+	libghc-binary-dev \
+	libghc-blaze-html-dev \
+	libghc-blaze-markup-dev \
+	libghc-bytestring-dev \
+	libghc-cmark-dev \
+	libghc-containers-dev \
+	libghc-data-default-dev \
+	libghc-deepseq-generics-dev \
+	libghc-directory-dev \
+	libghc-extensible-exceptions-dev \
+	libghc-filemanip-dev \
+	libghc-filepath-dev \
+	libghc-ghc-prim-dev \
+	libghc-haddock-library-dev \
+	libghc-highlighting-kate-dev \
+	libghc-hslua-dev \
+	libghc-HTTP-dev \
+	libghc-http-client-dev \
+	libghc-http-client-tls-dev \
+	libghc-http-types-dev \
+	libghc-JuicyPixels-dev \
+	libghc-mtl-dev \
+	libghc-network-dev \
+	libghc-network-uri-dev \
+	libghc-old-locale-dev \
+	libghc-old-time-dev \
+	libghc-pandoc-dev \
+	libghc-pandoc-types-dev \
+	libghc-parsec-dev \
+	libghc-process-dev \
+	libghc-random-dev \
+	libghc-scientific-dev \
+	libghc-SHA-dev \
+	libghc-syb-dev \
+	libghc-tagsoup-dev \
+	libghc-temporary-dev \
+	libghc-texmath-dev \
+	libghc-text-dev \
+	libghc-time-dev \
+	libghc-unordered-containers-dev \
+	libghc-vector-dev \
+	libghc-wai-dev \
+	libghc-wai-extra-dev \
+	libghc-xml-dev \
+	libghc-yaml-dev \
+	libghc-zip-archive-dev \
+	libghc-zlib-dev \
+
 
 # Try to build dependencies for pandoc and pandoc-citeproc
 RUN apt-get build-dep --assume-yes pandoc
