@@ -90,7 +90,7 @@ RUN apt-get install --assume-yes \
 	libghc-xml-dev \
 	libghc-yaml-dev \
 	libghc-zip-archive-dev \
-	libghc-zlib-dev \
+	libghc-zlib-dev
 
 
 # Try to build dependencies for pandoc and pandoc-citeproc
