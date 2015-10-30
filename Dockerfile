@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     gdebi-core \
     git \
     haskell-platform \
-    libapache2-mod-proxy-html \
+    apache2-bin \
     libcurl4-openssl-dev \
     libghc-pandoc-citeproc-data \
     libghc-pandoc-citeproc-dev \
