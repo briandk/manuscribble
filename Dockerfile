@@ -35,7 +35,8 @@ RUN cabal update && \
 ENV PATH /root/.cabal/bin:$PATH
 
 # Create checkpoint directory for R checkpoint package
-RUN R --vanilla -f packages.R
+COPY r-packages.R /dependencies/
+RUN R --vanilla -f /dependencies/r-packages.R
 RUN mkdir /root/.checkpoint
 
 # The container can now take two parameters. The R script to run in order to render
