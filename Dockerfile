@@ -72,7 +72,7 @@ RUN apt-get install --assume-yes \
 	libghc-old-time-dev \
 	libghc-pandoc-dev \
 	libghc-pandoc-types-dev \
-	libghc-parsec-dev \
+	libghc-parsec3-dev \
 	libghc-process-dev \
 	libghc-random-dev \
 	libghc-scientific-dev \
