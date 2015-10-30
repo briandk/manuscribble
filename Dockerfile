@@ -39,7 +39,7 @@ RUN apt-get install --assume-yes \
     postgresql \
 
 # Haskell Dependencies for pandoc
-RUN apt-get install --assume yes \
+RUN apt-get install --assume-yes \
 	libghc-aeson-dev \
 	libghc-array-dev \
 	libghc-base-dev \
