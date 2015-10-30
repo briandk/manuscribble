@@ -28,13 +28,23 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     texlive-luatex \
     texlive-xetex \
     wget
+    
+# MySQL and PostgreSQL
+RUN apt-get build-dep --assume-yes postgresql
+RUN apt-get build-dep --assume-yes mysql-client
+RUN apt-get install --assume-yes postgresql mysql-client
+
+# Try to build dependencies for pandoc and pandoc-citeproc
+RUN apt-get build-dep --assume-yes pandoc
+RUN apt-get build-dep --assume-yes pandoc-citeproc
 
 # install pandoc and put it on PATH
-RUN cabal update && \
-    cabal install pandoc pandoc-citeproc
+RUN cabal update
+RUN cabal install pandoc 
+RUN cabal install pandoc-citeproc
 ENV PATH /root/.cabal/bin:$PATH
 
-# Create checkpoint directory for R checkpoint package
+# Install Dependencies
 RUN mkdir /dependencies
 COPY r-packages.R /dependencies/
 RUN R --vanilla -f /dependencies/r-packages.R
