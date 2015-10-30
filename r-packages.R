@@ -4,7 +4,7 @@ packages_to_install <- c(
   "ggplot2",
   "knitr",
   "magrittr",
-  "rmarkdown",
+  "rmarkdown"
 )
 
 install.packages(
