@@ -35,9 +35,9 @@ RUN cabal update && \
 ENV PATH /root/.cabal/bin:$PATH
 
 # Create checkpoint directory for R checkpoint package
-RUN R -e 'install.packages(
-  c("checkpoint", "knitr", "rmarkdown"),
-  dep = TRUE,
+RUN R -e 'install.packages( \
+  c("checkpoint", "knitr", "rmarkdown"), \
+  dep = TRUE, \
   repos = "http://cran.rstudio.com")'
 RUN mkdir /root/.checkpoint
 
