@@ -1,6 +1,6 @@
-FROM ubuntu:trusty-20150612
+FROM ubuntu:trusty
 
-RUN add-apt-repository "deb https://cran.rstudio.com/bin/linux/ubuntu/trusty/" && \
+RUN echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 
 # install Haskell, LaTeX, Node, R, etc.
