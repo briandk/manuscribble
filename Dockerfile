@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     libxml2-dev \
     lmodern \
     nodejs \
-    r-base \
+    r-base-dev \
     r-recommended \
     texlive-fonts-recommended \
     texlive-latex-base \
