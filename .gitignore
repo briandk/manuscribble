@@ -1,2 +1,5 @@
 # Vagrant files
 .vagrant
+
+# My manuscript
+manuscript.Rmd
