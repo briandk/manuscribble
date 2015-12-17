@@ -12,25 +12,8 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 sed -i.bak 's/archive.ubuntu.com/mirrors.rit.edu/' /etc/apt/sources.list
 
 # install LaTeX, nodejs, R, and base Haskell
-apt-get update && apt-get install --assume-yes --no-install-recommends \
-    apache2 \
-    cabal-install \
-    ca-certificates \
-    ccache \
-    gdebi \
-    git \
-    libcurl4-openssl-dev \
-    libmysqlclient-dev \
-    libpq-dev \
-    libssl-dev \
-    libx11-dev \
-    libxml2-dev \
-    lmodern \
-    mysql-client \
-    nodejs \
-    r-base-dev \
-    r-recommended \
-    texlive-full
+apt-get update && apt-get install --assume-yes \
+    wget
 
 # Install Docker
 wget -qO- https://get.docker.com/ | sh
