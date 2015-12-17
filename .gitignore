@@ -1,0 +1,9 @@
+# Vagrant files
+.vagrant
+
+# My manuscript
+Drafts/
+.Rproj.user
+
+# R stuff
+.Rhistory
