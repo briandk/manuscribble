@@ -1,5 +1,4 @@
-arguments <- commandArgs()
-manuscript <- arguments[length(arguments)]
+manuscript <- commandArgs(trailingOnly = TRUE)
 
 rmarkdown::render(
   input = manuscript,
