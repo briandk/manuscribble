@@ -14,7 +14,7 @@ RUN sed -i.bak 's/archive.ubuntu.com/mirrors.rit.edu/' /etc/apt/sources.list
 
 # Get the system ready to build R from source
 RUN apt-get update && apt-get build-dep --assume-yes \
-    r-base \
+    r-base-core \
     r-cran-rgl
 
 # Build and install R from source
@@ -36,10 +36,4 @@ COPY render_manuscript.R /render
 # Set up a working directory
 RUN mkdir -p /source
 WORKDIR /source
-ENTRYPOINT [ \
-    "R", \
-    "--vanilla", \
-    "-f", \
-    "/render/render_manuscript.R", \
-    "--args" \
-]
+ENTRYPOINT [ "R", "--vanilla", "-f", "/render/render_manuscript.R", "--args" ]
