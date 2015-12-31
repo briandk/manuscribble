@@ -31,7 +31,7 @@ RUN R --vanilla -f /tmp/r-packages.R
 
 # Copy R script to render a manuscript
 RUN mkdir -p /render
-COPY render_manuscript.R /render
+COPY render_manuscript.R /render/
 
 # Set up a working directory
 RUN mkdir -p /source
