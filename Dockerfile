@@ -1,4 +1,4 @@
-FROM danielak/ubuntu-trusty
+FROM danielak/pandoc:latest
 
 # Global Variables
 # Making one change to RBRANCH toggles this from pre-release (R-devel) to base (current R)
