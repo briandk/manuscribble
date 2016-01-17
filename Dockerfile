@@ -1,4 +1,4 @@
-FROM danielak/pandoc:latest
+FROM danielak/latex-trusty:latest
 
 # Global Variables
 # Making one change to RBRANCH toggles this from pre-release (R-devel) to base (current R)
@@ -11,6 +11,14 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 
 # Try replacing the standard ubuntu archive with a faster mirror
 RUN sed -i.bak 's/archive.ubuntu.com/mirrors.rit.edu/' /etc/apt/sources.list
+
+# Install Pandoc
+RUN cabal update && cabal install pandoc
+RUN cabal update && cabal install pandoc-citeproc
+
+# Link Pandoc Binaries
+RUN ln -s /root/.cabal/bin/pandoc /usr/local/bin/pandoc
+RUN ln -s /root/.cabal/bin/pandoc-citeproc /usr/local/bin/pandoc-citeproc
 
 # Get the system ready to build R from source
 RUN apt-get update && apt-get build-dep --assume-yes \
@@ -26,6 +34,7 @@ RUN wget "$CRANURL$RBRANCH$RVERSION.tar.gz" && \
     make && \
     make install
 
+# Install R packages
 COPY r-packages.R /tmp/
 RUN R --vanilla -f /tmp/r-packages.R
 
