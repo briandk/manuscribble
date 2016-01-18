@@ -1,4 +1,4 @@
-FROM danielak/latex-trusty:latest
+FROM danielak/pandoc:latest
 
 # Global Variables
 # Making one change to RBRANCH toggles this from pre-release (R-devel) to base (current R)
@@ -9,23 +9,29 @@ ENV CRANURL https://cran.rstudio.com/src/
 # Add R Repository for CRAN packages
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 
-# Try replacing the standard ubuntu archive with a faster mirror
-RUN sed -i.bak 's/archive.ubuntu.com/mirrors.rit.edu/' /etc/apt/sources.list
+# install some basic stuff R depends upon
+RUN apt-get update && apt-get install --assume-yes \
+    apache2 \
+    ca-certificates \
+    ccache \
+    gdebi \
+    git \
+    libcurl4-openssl-dev \
+    libmysqlclient-dev \
+    libpq-dev \
+    libssl-dev \
+    libx11-dev \
+    libxml2-dev \
+    lmodern \
+    mysql-client \
+    wget
 
-# Install Pandoc
-RUN cabal update && cabal install pandoc
-RUN cabal update && cabal install pandoc-citeproc
-
-# Link Pandoc Binaries
-RUN ln -s /root/.cabal/bin/pandoc /usr/local/bin/pandoc
-RUN ln -s /root/.cabal/bin/pandoc-citeproc /usr/local/bin/pandoc-citeproc
-
-# Get the system ready to build R from source
+# Get Dependencies to build R from source
 RUN apt-get update && apt-get build-dep --assume-yes \
     r-base-core \
     r-cran-rgl
 
-# Build and install R from source
+# Build R from source
 RUN wget "$CRANURL$RBRANCH$RVERSION.tar.gz" && \
     mkdir /$RVERSION && \
     tar --strip-components 1 -zxvf $RVERSION.tar.gz  -C /$RVERSION && \
