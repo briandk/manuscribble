@@ -10,8 +10,8 @@ apt-get update && apt-get install --assume-yes \
 # Install Docker
 wget -qO- https://get.docker.com/ | sh
 
-# Add vagrant user to docker group
-usermod -aG docker vagrant
-
-# Verify Docker works properly
-docker run hello-world
+# Add vagrant user to docker
+#   https://docs.oracle.com/cd/E52668_01/E54669/html/section_rdz_hmw_2q.html
+groupadd docker
+service docker restart
+usermod -a -G docker vagrant
