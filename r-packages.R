@@ -1,4 +1,5 @@
 packages_to_install <- c(
+  "checkpoint",
   "devtools",
   "dplyr",
   "ggplot2",
@@ -11,5 +12,5 @@ packages_to_install <- c(
 install.packages(
   packages_to_install,
   dep = TRUE,
-  repos = "http://cran.rstudio.com"
+  repos = "https://cran.rstudio.com"
 )
