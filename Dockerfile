@@ -1,10 +1,21 @@
-FROM danielak/pandoc:latest
+FROM danielak/latex-xenial:latest
 
 # Global Variables
 # Making one change to RBRANCH toggles this from pre-release (R-devel) to base (current R)
 ENV RBRANCH base/
 ENV RVERSION R-latest
 ENV CRANURL https://cran.rstudio.com/src/
+ENV PANDOC_URL https://github.com/jgm/pandoc/releases/download/1.16.0.2/pandoc-1.16.0.2-1-amd64.deb
+ENV PANDOC_DEB pandoc-1.16.0.2-1-amd64.deb
+
+# Install wget
+RUN apt-get update && apt-get install --assume-yes wget
+
+
+# Install pandoc
+RUN mkdir pandoc && cd pandoc
+RUN wget "$PANDOC_URL"
+RUN dpkg --install $PANDOC_DEB
 
 # Add R Repository for CRAN packages
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
@@ -27,9 +38,12 @@ RUN apt-get update && apt-get install --assume-yes \
     wget
 
 # Get Dependencies to build R from source
-RUN apt-get update && apt-get build-dep --assume-yes \
-    r-base-core \
-    r-cran-rgl
+RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
+        r-base-dev
+
+RUN apt-get update && apt-get build-dep --assume-yes r-base-core
+
+
 
 # Build R from source
 RUN wget "$CRANURL$RBRANCH$RVERSION.tar.gz" && \
@@ -51,4 +65,4 @@ COPY render_manuscript.R /render/
 # Set up a working directory
 RUN mkdir -p /source
 WORKDIR /source
-ENTRYPOINT [ "R", "--vanilla", "-f", "/render/render_manuscript.R", "--args" ]
+# ENTRYPOINT [ "R", "--vanilla", "-f", "/render/render_manuscript.R", "--args" ]
