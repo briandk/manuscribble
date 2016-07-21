@@ -54,7 +54,8 @@ RUN mkdir /manuscript
 COPY compiling/makefile /manuscribble
 COPY compiling/$PANDOC_LATEX_TEMPLATE /manuscribble
 WORKDIR /manuscribble
-CMD ["make", "manuscript"]
+ENTRYPOINT ["make", "-C", "/manuscribble", "manuscript"]
+# CMD ["ls", "-al", "/manuscript"]
 
 # # Build R from source
 # RUN wget "$CRANURL$RBRANCH$RVERSION.tar.gz" && \
