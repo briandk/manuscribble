@@ -1,14 +1,35 @@
-my_manuscript = JLS_Rebecca_Manuscript
-render_script = /vagrant/render_manuscript.R
-run_in_r = sudo R --vanilla -f
+path_to_manuscript = /manuscript/
+manuscript_file = manuscript
+latex_template = pandoc-template.latex
+manuscript:
+	make pandoc-intermediate
+	# make latex-pdf
+	make clean
 
-using-vagrant:
-	vagrant ssh -c  "$(run_in_r) $(render_script) --args  /vagrant/Drafts/$(my_manuscript).Rmd" && \
-  open Drafts/$(my_manuscript).pdf
+pandoc-intermediate:
+	pandoc \
+		--to latex \
+		--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+implicit_figures+pipe_tables+raw_html+fenced_code_blocks+auto_identifiers+ascii_identifiers+backtick_code_blocks+autolink_bare_uris+yaml_metadata_block \
+		--standalone \
+		--template=$(latex_template) \
+		--natbib \
+		$(path_to_manuscript)$(manuscript_file).md \
+		--output=$(path_to_manuscript)pandoc-intermediate.tex
+	pandoc --version
 
-locally:
-	R --vanilla -f render_manuscript.R --args Drafts/$(my_manuscript).Rmd && \
-	open Drafts/$(my_manuscript).pdf
 
-using-docker:
-	docker run -v /vagrant:/vagrant t R --vanilla -f $(render_script) --args manuscript.Rmd
+latex-pdf:
+	pdflatex $(path_to_manuscript)$(manuscript_file)
+	bibtex $(path_to_manuscript)$(manuscript_file)
+	pdflatex $(path_to_manuscript)$(manuscript_file)
+	pdflatex $(path_to_manuscript)$(manuscript_file)
+
+
+clean:
+	echo "CLEANING!"
+	cd /manuscript; rm \
+		*.aux \
+		*.bbl \
+		*.blg \
+		*.log \
+		pandoc-intermediate.tex
