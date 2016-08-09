@@ -9,6 +9,14 @@ ENV CRANURL https://cran.rstudio.com/src/
 ENV PANDOC_VERSION 1.17.2
 ENV PANDOC_LATEX_TEMPLATE pandoc-template.latex
 
+## Configure default locale, see https://github.com/rocker-org/rocker/issues/19
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+	&& locale-gen en_US.utf8 \
+	&& /usr/sbin/update-locale LANG=en_US.UTF-8
+
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+
 ##########################################################################
 # Install Pandoc - set version in ENV PANDOC_VERSION
 ##########################################################################
@@ -43,38 +51,47 @@ RUN apt-get update && apt-get install --assume-yes \
     mysql-client \
     wget
 
-# Get Dependencies to build R from source
-RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
-        r-base-dev
+# Get Build dependencies to compile R from source
+RUN apt-get update && \
+    apt-get build-dep --assume-yes --no-install-recommends r-base
 
-RUN apt-get update && apt-get build-dep --assume-yes r-base-core
+# Build R from source
+RUN wget "$CRANURL$RBRANCH$RVERSION.tar.gz" && \
+    mkdir /$RVERSION && \
+    tar --strip-components 1 -zxvf $RVERSION.tar.gz  -C /$RVERSION && \
+    cd /$RVERSION && \
+    ./configure --enable-R-shlib && \
+    make && \
+    make install
 
-RUN mkdir /manuscribble
-RUN mkdir /manuscript
+# Install R packages
+## Required for the rgl package
+RUN apt-get update && \
+    apt-get install --assume-yes r-cran-rgl
+## Install R packages
+COPY provisioning/r-packages.R /tmp/
+RUN R --vanilla -f /tmp/r-packages.R
+
+##########################################################################
+# Install RStudio Server
+##########################################################################
+ENV RSTUDIO_SERVER rstudio-server-0.99.903-amd64.deb
+RUN apt-get update && apt-get install --assume-yes \
+    gdebi-core
+RUN wget "https://download2.rstudio.org/$RSTUDIO_SERVER"
+RUN gdebi --non-interactive "$RSTUDIO_SERVER"
+RUN rstudio-server verify-installation
+EXPOSE 8787
+
+# Copy R script to render a manuscript
+COPY compiling/render_manuscript.R /manuscribble
 COPY compiling/makefile /manuscribble
 COPY compiling/$PANDOC_LATEX_TEMPLATE /manuscribble
 WORKDIR /manuscript
-ENTRYPOINT ["make", "-C", "/manuscribble", "manuscript"]
-# CMD ["ls", "-al", "/manuscript"]
+CMD [
+    "exec"
+    , "/usr/lib/rstudio-server/bin/rserver"
+    , "--server-daemonize 0"
+]
 
-# # Build R from source
-# RUN wget "$CRANURL$RBRANCH$RVERSION.tar.gz" && \
-#     mkdir /$RVERSION && \
-#     tar --strip-components 1 -zxvf $RVERSION.tar.gz  -C /$RVERSION && \
-#     cd /$RVERSION && \
-#     ./configure --enable-R-shlib && \
-#     make && \
-#     make install
-#
-# # Install R packages
-# COPY provisioning/r-packages.R /tmp/
-# RUN R --vanilla -f /tmp/provisioning/r-packages.R
-#
-# # Copy R script to render a manuscript
-# RUN mkdir -p /render
-# COPY render_manuscript.R /render/
-#
-# # Set up a working directory
-# RUN mkdir -p /source
-# WORKDIR /source
-# # ENTRYPOINT [ "R", "--vanilla", "-f", "/render/render_manuscript.R", "--args" ]
+# ENTRYPOINT [ "R", "--vanilla", "-f", "/manuscribble/render_manuscript.R", "--args" ]
