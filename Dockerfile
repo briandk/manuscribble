@@ -53,7 +53,7 @@ RUN mkdir /manuscribble
 RUN mkdir /manuscript
 COPY compiling/makefile /manuscribble
 COPY compiling/$PANDOC_LATEX_TEMPLATE /manuscribble
-WORKDIR /manuscribble
+WORKDIR /manuscript
 ENTRYPOINT ["make", "-C", "/manuscribble", "manuscript"]
 # CMD ["ls", "-al", "/manuscript"]
 
