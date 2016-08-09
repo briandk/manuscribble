@@ -1,3 +1,5 @@
+\begin{document}
+
 $body$
 
 $if(natbib)$
@@ -17,3 +19,4 @@ $if(biblatex)$
 \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
 
 $endif$
+\end{document}
