@@ -20,6 +20,8 @@ apt-get update && apt-get install --assume-yes \
     python3 \
     wget
 
+install_docker() {
+
 ##################################################################################
 #  Install Docker https://docs.docker.com/engine/installation/linux/ubuntulinux/ #
 ##################################################################################
@@ -47,3 +49,4 @@ curl https://gist.githubusercontent.com/briandk/924d101f28dbf309758206fa3eff32b4
 groupadd docker
 service docker restart
 usermod -aG docker ubuntu
+}
