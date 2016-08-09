@@ -7,6 +7,7 @@ ENV RVERSION R-latest
 ENV CRANURL https://cran.rstudio.com/src/
 # To bump a pandoc version, just update this variable. The rest are chained to it.
 ENV PANDOC_VERSION 1.17.2
+ENV PANDOC_LATEX_TEMPLATE pandoc-template.latex
 
 ##########################################################################
 # Install Pandoc - set version in ENV PANDOC_VERSION
@@ -47,7 +48,14 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
         r-base-dev
 
 RUN apt-get update && apt-get build-dep --assume-yes r-base-core
-CMD ["pandoc", "--version"]
+
+RUN mkdir /manuscribble
+RUN mkdir /manuscript
+COPY compiling/makefile /manuscribble
+COPY compiling/$PANDOC_LATEX_TEMPLATE /manuscribble
+WORKDIR /manuscribble
+ENTRYPOINT ["make", "-C", "/manuscribble", "manuscript"]
+# CMD ["ls", "-al", "/manuscript"]
 
 # # Build R from source
 # RUN wget "$CRANURL$RBRANCH$RVERSION.tar.gz" && \
@@ -59,8 +67,8 @@ CMD ["pandoc", "--version"]
 #     make install
 #
 # # Install R packages
-# COPY r-packages.R /tmp/
-# RUN R --vanilla -f /tmp/r-packages.R
+# COPY provisioning/r-packages.R /tmp/
+# RUN R --vanilla -f /tmp/provisioning/r-packages.R
 #
 # # Copy R script to render a manuscript
 # RUN mkdir -p /render
