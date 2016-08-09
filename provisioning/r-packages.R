@@ -3,6 +3,7 @@ packages_to_install <- c(
   "devtools",
   "dplyr",
   "ggplot2",
+  "ggvis",
   "knitr",
   "magrittr",
   "rmarkdown",
