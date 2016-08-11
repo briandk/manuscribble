@@ -88,10 +88,6 @@ COPY compiling/render_manuscript.R /manuscribble
 COPY compiling/makefile /manuscribble
 COPY compiling/$PANDOC_LATEX_TEMPLATE /manuscribble
 WORKDIR /manuscript
-CMD [
-    "exec"
-    , "/usr/lib/rstudio-server/bin/rserver"
-    , "--server-daemonize 0"
-]
+CMD ["/usr/lib/rstudio-server/bin/rserver", "--server-daemonize", "0"]
 
 # ENTRYPOINT [ "R", "--vanilla", "-f", "/manuscribble/render_manuscript.R", "--args" ]
