@@ -84,9 +84,9 @@ RUN rstudio-server verify-installation
 EXPOSE 8787
 
 # Copy R script to render a manuscript
-COPY compiling/render_manuscript.R /manuscribble
-COPY compiling/makefile /manuscribble
-COPY compiling/$PANDOC_LATEX_TEMPLATE /manuscribble
+COPY compiling/render_manuscript.R /manuscribble/
+COPY compiling/makefile /manuscribble/
+COPY compiling/$PANDOC_LATEX_TEMPLATE /manuscribble/
 WORKDIR /manuscript
 # CMD ["/usr/lib/rstudio-server/bin/rserver", "--server-daemonize", "0"]
 # RUN /usr/lib/rstudio-server/bin/rserver --server-daemonize 0
