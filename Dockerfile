@@ -103,8 +103,8 @@ RUN R --vanilla -f /tmp/r-packages.R
 COPY compiling/render_manuscript.R /manuscribble/
 COPY compiling/makefile /manuscribble/
 
-ENV PANDOC_LATEX_TEMPLATE pandoc-template.latex
-COPY compiling/$PANDOC_LATEX_TEMPLATE /manuscribble/
+# ENV PANDOC_LATEX_TEMPLATE pandoc-template.latex
+# COPY compiling/$PANDOC_LATEX_TEMPLATE /manuscribble/
 # CMD ["/usr/lib/rstudio-server/bin/rserver", "--server-daemonize", "0"]
 # RUN /usr/lib/rstudio-server/bin/rserver --server-daemonize 0
 
