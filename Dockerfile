@@ -5,9 +5,15 @@ LABEL version="0.1"
 ##########################################################################
 # Configure Default Locale
 ##########################################################################
-RUN apt-get update && apt-get install --assume-yes wget
+# Set the locale for English, UTF-8
+#   see:
+#     - https://github.com/rstudio/rmarkdown/issues/383
+#     - https://github.com/rocker-org/rocker/issues/19
+#     - http://crosbymichael.com/dockerfile-best-practices-take-2.html
+RUN dpkg-reconfigure locales && \
+    locale-gen en_US.UTF-8 && \
+    /usr/sbin/update-locale LANG=en_US.UTF-8
 
-# See https://github.com/rocker-org/rocker/issues/19
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
 	&& locale-gen en_US.utf8 \
 	&& /usr/sbin/update-locale LANG=en_US.UTF-8
