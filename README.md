@@ -22,3 +22,14 @@ docker run \
 ```
 
 That's it!
+
+## Why would I use this?
+
+[RStudio](rstudio.com) is absolutely fantastic and I think everyone should use it. BUT, when I write academic manuscripts, I tend to have the following needs:
+
+1. I need to cite lots of sources
+2. I do not want to deal with collaborators using or not having certain LaTeX dependencies.
+
+`Manuscribble` helps with both problems. Because it's an entirely portable R+LaTeX environment, you can use whatever text editor you want (I'm currently using Github Atom with the `LaTeXer` package). And, because it contains a full LaTeX install, there's no chance you'll be missing some weird style file dependency.[^1]
+
+[^1]: Unless your collaborators are using some sadistic homegrown style file, in which case: Donald Knuth help you.
