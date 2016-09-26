@@ -1,13 +1,28 @@
-packages_to_install <- c(
-  "checkpoint",
-  "devtools",
-  "dplyr",
-  "ggplot2",
-  "ggvis",
-  "knitr",
-  "magrittr",
-  "rmarkdown",
-  "tidyr"
+packages_to_install <- c( "broom"
+                        , "checkpoint"
+                        , "DBI"
+                        , "devtools"
+                        , "dplyr"
+                        , "forcats"
+                        , "ggplot2"
+                        , "ggvis"
+                        , "haven"
+                        , "httr"
+                        , "hms"
+                        , "jsonlite"
+                        , "knitr"
+                        , "lubridate"
+                        , "magrittr"
+                        , "modelr"
+                        , "purrr"
+                        , "readr"
+                        , "readxl"
+                        , "rmarkdown"
+                        , "rvest"
+                        , "stringr"
+                        , "tibble"
+                        , "tidyr"
+                        , "xml2"
 )
 
 install.packages(

@@ -84,11 +84,9 @@ RUN wget "$CRANURL$RBRANCH$RVERSION.tar.gz" && \
     make && \
     make install
 
-# Install R packages
-## Required for the rgl package
-RUN apt-get update && \
-    apt-get install --assume-yes r-cran-rgl
-## Install R packages
+##########################################################################
+# Install R Dependencies
+##########################################################################
 COPY provisioning/r-packages.R /tmp/
 RUN R --vanilla -f /tmp/r-packages.R
 
@@ -117,5 +115,6 @@ COPY compiling/makefile /manuscribble/
 ##########################################################################
 # App Entrypoint
 ##########################################################################
+RUN mkdir /root/.checkpoint
 WORKDIR /manuscript
-ENTRYPOINT [ "R", "--vanilla", "-f", "/manuscribble/render_manuscript.R", "--args" ]
+ENTRYPOINT ["R", "--vanilla"]
