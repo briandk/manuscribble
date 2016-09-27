@@ -35,4 +35,4 @@ COPY compiling/makefile /manuscribble/
 ##########################################################################
 RUN mkdir /root/.checkpoint
 WORKDIR /manuscript
-ENTRYPOINT ["R", "--vanilla"]
+ENTRYPOINT [ "R", "--vanilla", "--file=/manuscribble/render_manuscript.R", "--args"]
